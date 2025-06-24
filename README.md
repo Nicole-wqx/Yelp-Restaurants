@@ -33,9 +33,9 @@ All restaurants with an open probability lower than 0.6997 will be filtered out.
 ![logit](images/gain.png)
 
 ## STEP 2: Model Evaluation
-The Yelp company is curious whether star level and location will affect the probability of opening. Another model is introduced to predict the open status of restaurants.
+The Yelp company is curious whether star level and location will affect the probability of opening. The other two logit regression models are introduced to predict the open status of restaurants.
 
-K-fold Cross-Validation is used to evaluate the two models.
+K-fold Cross-Validation is used to evaluate the three models.
 
 ***Model 1***
 ```math 
@@ -45,7 +45,20 @@ K-fold Cross-Validation is used to evaluate the two models.
 
 ***Model 2***
 ```math 
+\log\left(\frac{P(\text{open} = 1)}{1 - P(\text{open} = 1)}\right) = \beta_0 + \beta_1 \cdot \text{elitecnt} + \beta_2 \cdot \text{pricelevel}\cdot \text{starlavel} + \beta_J \cdot \text{repeated cnt} + u_i 
+
+```
+
+***Model 3***
+```math 
 \log\left(\frac{P(\text{open} = 1)}{1 - P(\text{open} = 1)}\right) = \beta_0 + \beta_1 \cdot \text{elitecnt} + \beta_2 \cdot \text{elitecnt}^2 + \beta_3 \cdot \text{pricelevel}\cdot \text{starlavel}\cdot \text{repeated cnt} + \beta_J \cdot \text{city}_J + u_i 
 
 ```
 
+![logit](images/kfold.png)
+
+Model 2 has higher predictive power than model 1 by increasing the AUC by 8.46%.
+However, ***model 3 does not improve the predictive power meaningfully (only 1.79%)***
+and it is too complex for predicting.
+
+Model 2 should be selected as the final model for predicting open status.
